@@ -17,8 +17,16 @@
         "sql": "select p.code,p.address,p.property_type,p.area_sqm,p.interest,p.source_ref from properties p join assignments a on a.property_id=p.id where a.id=$1"
       },
       {
-        "title": "Comparable sales",
-        "sql": "select comparable,address,sale_date,currency,sale_amount,area_sqm,adjustment_pct,weight,adjusted_rate_amount,reason,verification_ref from comparison_grid where assignment_id=$1 order by comparable"
+        "title": "Sale evidence",
+        "sql": "select comparable,address,sale_date,source_ref,verification_ref from comparison_grid where assignment_id=$1 order by comparable"
+      },
+      {
+        "title": "Sale inputs",
+        "sql": "select comparable,currency,sale_amount,area_sqm from comparison_grid where assignment_id=$1 order by comparable"
+      },
+      {
+        "title": "Adjustments and selections",
+        "sql": "select comparable,adjustment_pct,weight,adjusted_rate_amount,reason from comparison_grid where assignment_id=$1 order by comparable"
       },
       {
         "title": "Conclusion check",
