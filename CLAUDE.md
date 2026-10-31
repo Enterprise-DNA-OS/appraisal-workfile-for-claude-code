@@ -1,43 +1,53 @@
-# Appraisal Workfile for Claude Code: operating instructions
+# Appraisal Workfile for Claude Code
 
-This file is the brain. Claude Code reads it at the start of every session. It says who this is for, how work gets done, and the one right way to do each recurring job.
+Read records before acting. This system is for trusted valuation-practice operators. Fill in your business, authorised valuers and scope before using real records. Demo facts are fictional.
 
-## Who this is for
+## One command library
 
-- **Business:** [YOUR BUSINESS]
-- **Operator:** [YOUR NAME], [your role]
-- **What matters most:** [the one or two outcomes you care about]
-
-Fill this in once. A worker with context knows. A worker without it guesses.
-
-## How to work
-
-1. **Take a brief, not a script.** The operator describes the outcome. You run the right command and present the answer.
-2. **Read before you write.** Before drafting anything about a record, read its full history first.
-3. **Plain language.** Short sentences. No filler. Numbers in tables.
-4. **Silent success, loud problems.** No play-by-play. Say what broke and what you did about it.
-5. **Stop at the line.** Anything that sends, deletes, or faces a customer waits for a yes in this session.
-
-## Routing table: one right way for each recurring job
-
-| When the operator asks for... | Use this |
+| Ask | Command |
 |---|---|
-| <!-- TODO(author): one row per slash command --> | `/...` |
+| Read the property register and interests. | /properties |
+| Read assignment owners, due dates and status. | /assignments |
+| Read the comparable sales library. | /comparables |
+| Plan the open appraisal work and due dates. | /work-in-hand |
+| Find overdue assignments and evidence gaps. | /attention |
+| Prepare the inspection list from missing inspection records. | /inspection-plan |
+| Check the workfile evidence against the documented rules. | /compliance |
+| Review selected sales for source, date, type and currency issues. | /comp-check |
+| See which workfiles need peer review or have changed since review. | /review-queue |
+| Read complete workfiles with a current peer review. | /review-ready |
+| Compare the valuer conclusion with weighted sale indications. | /indications |
+| Read imported source batches. | /imports |
+| Read one complete record before an action. | /show |
+| Read the attributed history of an assignment. | /history |
+| Answer ten questions from current workfile records. | /insights |
+| Register a property from checked evidence. | /add-property |
+| Register an appraisal instruction. | /add |
+| Register a comparable sale from evidence the valuer can use. | /add-comp |
+| Select a comparable, its adjustment and relative weight for one assignment. | /link-comp |
+| Record agreed instructions, basis, users, assumptions and conflict evidence. | /scope |
+| Record a completed inspection and its evidence reference. | /inspect |
+| Append an evidence reference and note. | /evidence |
+| Record a conclusion and rationale supplied by the authorised valuer. | /conclude |
+| Record a peer review supplied by a different person from the valuer. | /review |
+| Close a clear and reviewed workfile. This does not issue a report. | /close |
+| Reopen a closed workfile for a recorded reason and invalidate its review. | /reopen |
+| Append an internal note. | /log |
+| Preview and import one Valcre CSV with explicit mapping. | /import |
+| Write a portable record copy to a new file. | /export |
+| Draft an internal engagement scope from the recorded instructions. | /draft-engagement |
+| Monday review | /weekly-review |
+| Change a field or local rule | /customise |
+| Add a read-only report | /new-view |
 
-If an ask fits nothing here, run the CLI directly (`npm run <cli> -- --help`) and then propose a new command for it.
+## Rules
 
-## Hard rules
+Use scripts/appraisal.mjs. All mutations need --actor and append history. Never invent professional judgement, comparable verification, an inspection, a client instruction or a peer review. Read docs/compliance.md before discussing compliance. Names identify the source of a statement, not an authenticated person.
 
-- Never send email or messages from here. Draft to `drafts/`, a person sends.
-- Never delete records without an explicit yes in this session. Prefer marking closed or archived.
-- Never invent a record. If a name is ambiguous, list the candidates and ask.
-- The database is the source of truth. If the answer is not in it, say so.
+Draft to drafts/. Nothing sends, signs, pays or publishes. No deletion command exists. Close completed workfiles and reopen with a reason. Never hide a gap to make review pass. Imported jobs start active and unreviewed. Preserve original source files and their licences.
 
-## Where things live
+Use one private database per practice. Do not expose database credentials or a database owner connection to untrusted users. Native backup and recovery are separate from export. Keep files out of git. Never run demo seed on an operated database.
 
-- `scripts/` the CLI. `scripts/lib/db.mjs` picks `DATABASE_URL` (Postgres, Supabase) or the embedded database in `.data/`.
-- `supabase/migrations/` the schema, plain SQL. `npm run migrate` applies it.
-- `.claude/commands/` the slash commands. Add one every time the same ask comes twice.
-- `docs/` the thesis and the guide for moving off Valcre.
+Run npm test after code changes. Apply new migrations in sequence. The code works with PostgreSQL or the local PGlite database. Every report is a read-only snapshot. Real opinions and client issue remain the authorised valuer's responsibility.
 
-Built by Enterprise DNA. Installed and run for you as part of Omni: https://enterprisedna.co/omni/instead-of/valcre
+Omni by Enterprise DNA: https://enterprisedna.co/omni/instead-of/valcre

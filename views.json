@@ -1,13 +1,33 @@
 [
   {
     "name": "week",
-    "title": "This week",
-    "subtitle": "Appraisal Workfile for Claude Code: what needs attention, rendered by npm run view",
+    "title": "Appraisal work in hand",
+    "subtitle": "Read-only snapshot. Fictional demo records until your own import.",
     "sections": [
       {
-        "title": "Needs attention",
-        "note": "TODO(author): point this at the industry's attention view (overdue, stuck, quiet).",
-        "sql": "select 'replace me' as item, 'TODO(author)' as why"
+        "title": "Open assignments",
+        "sql": "select code,address,valuer,due_date,overdue_days,issues from work_queue where status='active' order by due_date nulls first,code"
+      }
+    ]
+  },
+  {
+    "name": "evidence",
+    "title": "Evidence and review gaps",
+    "sections": [
+      {
+        "title": "Checks needing attention",
+        "sql": "select code,rule,issue from compliance_issues order by code,rule"
+      }
+    ]
+  },
+  {
+    "name": "comparison",
+    "title": "Comparable sales review",
+    "sections": [
+      {
+        "title": "Weighted sales indications",
+        "sql": "select code,currency,comps,indicated_amount,conclusion_amount,conclusion_variance_pct from indications order by code",
+        "note": "Sales comparison only. Units are square metres. The valuer selects evidence, weights and adjustments. This is not an automated valuation."
       }
     ]
   }

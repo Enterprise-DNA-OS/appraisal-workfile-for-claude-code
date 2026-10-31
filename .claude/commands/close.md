@@ -1,0 +1,11 @@
+# /close
+
+Close a clear and reviewed workfile. This does not issue a report.
+
+Read the affected record first. Use the operator's supplied values and named actor. Example values below are placeholders, never facts to insert. If a name is ambiguous, list candidates and ask for the intended record.
+
+```bash
+node scripts/appraisal.mjs close JOB-004 --note="Workfile complete" --actor=Operator
+```
+
+Add --json for machine-readable output. Present the result in this chat. Nothing sends, signs or publishes.

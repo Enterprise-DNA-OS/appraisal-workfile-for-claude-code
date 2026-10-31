@@ -1,11 +1,63 @@
 [
   {
-    "name": "example",
-    "title": "TODO(author): the first document this industry must produce",
-    "for_each": "select gen_random_uuid() as id, 'Example' as name",
-    "file": "name",
+    "name": "workfile",
+    "title": "Draft appraisal workfile",
+    "for_each": "select id,code from assignments order by code",
+    "file": "code",
     "sections": [
-      { "title": "Details", "sql": "select 'replace me' as item, $1::text as record_id" }
+      {
+        "title": "Recorded instructions",
+        "layout": "record",
+        "sql": "select code,client,valuer,valuation_date,currency,purpose,intended_users,basis,scope_ref,conflict_ref,inspection_date,inspection_ref,assumptions,conclusion_amount,rationale from assignments where id=$1",
+        "note": "Internal workfile. Not a signed valuation, lender report or certificate of compliance."
+      },
+      {
+        "title": "Property",
+        "layout": "record",
+        "sql": "select p.code,p.address,p.property_type,p.area_sqm,p.interest,p.source_ref from properties p join assignments a on a.property_id=p.id where a.id=$1"
+      },
+      {
+        "title": "Comparable sales",
+        "sql": "select comparable,address,sale_date,currency,sale_amount,area_sqm,adjustment_pct,weight,adjusted_rate_amount,reason,verification_ref from comparison_grid where assignment_id=$1 order by comparable"
+      },
+      {
+        "title": "Conclusion check",
+        "sql": "select currency,comps,indicated_amount,conclusion_amount,conclusion_variance_pct from indications where id=$1"
+      },
+      {
+        "title": "Recorded evidence",
+        "sql": "select kind,reference,note,actor from evidence where assignment_id=$1 order by created_at"
+      },
+      {
+        "title": "Outstanding checks",
+        "sql": "select rule,issue from compliance_issues where assignment_id=$1 order by rule"
+      },
+      {
+        "title": "Peer review",
+        "sql": "select reviewer,reference,note,created_at from reviews where assignment_id=$1 order by created_at"
+      }
+    ]
+  },
+  {
+    "name": "review-memo",
+    "title": "Draft peer review memorandum",
+    "for_each": "select id,code from review_ready order by code",
+    "file": "code",
+    "sections": [
+      {
+        "title": "Review state",
+        "layout": "record",
+        "sql": "select code,address,valuer,currency,reviewed_at,changed_at from review_ready where id=$1",
+        "note": "Recorded peer review of the current workfile. The authorised valuer remains responsible for any final opinion and issue."
+      },
+      {
+        "title": "Reviewer evidence",
+        "sql": "select reviewer,reference,note,created_at from reviews where assignment_id=$1 order by created_at"
+      },
+      {
+        "title": "Conclusion",
+        "sql": "select currency,indicated_amount,conclusion_amount,conclusion_variance_pct from indications where id=$1"
+      }
     ]
   }
 ]

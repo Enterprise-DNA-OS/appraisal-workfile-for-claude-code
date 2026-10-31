@@ -1,0 +1,9 @@
+{
+  "code": "Job Number",
+  "property": "Property ID",
+  "client": "Client",
+  "valuer": "Appraiser",
+  "due": "Due Date",
+  "date": "Valuation Date",
+  "currency": "Currency"
+}
